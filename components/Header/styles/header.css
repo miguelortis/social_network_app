@@ -1,0 +1,10 @@
+.header {
+  z-index: 1000;
+  position: sticky;
+  top: 0;
+  background: linear-gradient(
+    0deg,
+    rgba(168, 212, 252, 1) 25%,
+    rgba(132, 183, 252, 1) 100%
+  );
+}

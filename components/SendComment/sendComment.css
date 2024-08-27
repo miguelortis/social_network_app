@@ -1,0 +1,22 @@
+textarea {
+  color: #000;
+  margin: 0.7rem 0px;
+  max-height: 120px;
+  resize: none;
+  width: 100%;
+  border-radius: 10px;
+  border: solid 1px #a9a9a978;
+  padding: 1px 4px;
+}
+textarea::-webkit-scrollbar {
+  width: 6px;
+  height: 8px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background-color: #60a5fa00;
+  border-radius: 50px;
+}
+textarea:hover::-webkit-scrollbar-thumb {
+  background-color: #60a5fa87;
+}

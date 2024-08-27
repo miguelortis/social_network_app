@@ -1,0 +1,18 @@
+.s-title {
+  display: flex;
+  flex-direction: row;
+  margin-right: 74px;
+  background-color: #fff;
+  width: 100%;
+  border-radius: 6px;
+  margin: 0;
+  text-transform: uppercase;
+  font-weight: 500;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 4px;
+  position: relative;
+  font-size: 15px;
+  color: #8a96a3;
+}

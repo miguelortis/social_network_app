@@ -1,0 +1,55 @@
+main {
+  background: #f6f3f3;
+}
+
+.container-menu {
+  background-color: white;
+  padding: 0 10px;
+  position: sticky;
+  top: 85px;
+  height: calc(100vh - 85px);
+  overflow-y: auto;
+}
+.container-menu::-webkit-scrollbar {
+  width: 4px; /* Tamaño del scroll en vertical */
+  height: 8px; /* Tamaño del scroll en horizontal */
+}
+.container-menu::-webkit-scrollbar-thumb {
+  background-color: #60a5fa00;
+  border-radius: 50px;
+}
+.container-menu:hover::-webkit-scrollbar-thumb {
+  background-color: #60a5fa87;
+}
+
+.chats-container {
+  background-color: white;
+  padding: 0 10px;
+  position: sticky;
+  top: 85px;
+  height: calc(100vh - 85px);
+  overflow-y: auto;
+}
+
+.chats-container::-webkit-scrollbar {
+  width: 4px; /* Tamaño del scroll en vertical */
+  height: 8px; /* Tamaño del scroll en horizontal */
+}
+.chats-container::-webkit-scrollbar-thumb {
+  background-color: #60a5fa00;
+  border-radius: 50px;
+}
+.chats-container:hover::-webkit-scrollbar-thumb {
+  background-color: #60a5fa87;
+}
+
+.content {
+  min-height: 100vh;
+}
+
+/* @media screen and (max-width: 1024px) {
+  .container-menu,
+  .chats-container {
+    display: none;
+  }
+} */
