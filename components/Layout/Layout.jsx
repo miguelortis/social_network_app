@@ -8,7 +8,7 @@ import Header from "../Header/Header";
 import ContactList from "../ContactList/ContactList";
 import Chat from "../Chat/Chat";
 import ChatList from "../ChatList/ChatList";
-import "./styles/LayoutStyles.css";
+import "./styles/layoutStyles.css";
 
 const subCategories = [
   {
