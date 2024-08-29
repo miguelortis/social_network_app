@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import axios from "../../../config/axios";
+import Loader from "../../../components/Loader/Loader";
 
 function Home() {
   const router = useRouter();
@@ -12,10 +13,12 @@ function Home() {
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState("password");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const headers = {
       "Content-Type": "application/json",
@@ -23,7 +26,7 @@ function Home() {
     };
     const res = await axios.post("auth/login", credentials, headers);
     if (res.status === 200) {
-      console.log(res);
+      setLoading(false);
       document.cookie = `token=${res.data.token}; path=/; max-age=2592000`; // 30 días
       router.push("/account");
     }
@@ -94,10 +97,22 @@ function Home() {
           </div>
           <div className="mb-5 mt-5">
             <button
+              disabled={loading}
               type="submit"
-              className="w-full text-white px-4 py-2 bg-blue-500/50 hover:bg-blue-500 rounded-full uppercase"
+              className={`w-full text-white px-4 py-2 ${
+                loading
+                  ? "cursor-wait bg-gray-300"
+                  : "bg-blue-500/50 hover:bg-blue-500"
+              } rounded-full uppercase`}
             >
-              Iniciar Sesion
+              <div className="flex items-center justify-center relative">
+                <span>Iniciar Sesion</span>
+                {loading && (
+                  <div className="absolute right-0">
+                    <Loader width={20} height={20} />
+                  </div>
+                )}
+              </div>
             </button>
           </div>
         </form>
