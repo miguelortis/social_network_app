@@ -19,9 +19,9 @@ export default function Login() {
                 <span className="title2">Voyer</span>
               </div>
               <div style={{ display: "flex", justifyContent: "center" }}>
-                <h2 className="subtitle">
+                <span className="subtitle">
                   Registrate ya y disfruta del contenido.
-                </h2>
+                </span>
               </div>
             </div>
             <div className="c-img">
