@@ -3,8 +3,8 @@ import Form from "./components/form";
 import "./styles/page.css";
 
 export const metadata = {
-  title: "Login | Auth",
-  description: "Login | Auth",
+  title: "Inicio de sesión",
+  description: "asdasd",
 };
 
 export default function Login() {
