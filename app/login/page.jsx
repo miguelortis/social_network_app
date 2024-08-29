@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function Login() {
   return (
-    <div>
+    <div className="h-screen">
       <div className="c-login w-full flex">
         <div className="w-2/4 c-left justify-end flex">
           <div className="pt-20 h-full w-[45rem] overflow-hidden">
@@ -24,17 +24,15 @@ export default function Login() {
                 </h2>
               </div>
             </div>
-            <Image
-              src="/leaves.svg"
-              alt="leaf"
-              style={{
-                width: "45rem",
-                transform: "translate(-100px, -15px) rotate(25deg)",
-                opacity: 0.3,
-              }}
-              width="100"
-              height="100"
-            />
+            <div className="c-img">
+              <Image
+                src="/leaves.svg"
+                alt="leaf"
+                className="img"
+                width="1000"
+                height="1000"
+              />
+            </div>
           </div>
         </div>
         <div className="w-2/4 c-right justify-start flex">
