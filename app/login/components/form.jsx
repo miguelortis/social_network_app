@@ -13,7 +13,7 @@ function Home() {
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState("password");
 
   const handleSubmit = async (e) => {
