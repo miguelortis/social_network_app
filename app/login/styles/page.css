@@ -47,8 +47,45 @@
 
 .f-l-title {
   font-size: 19px;
+  color: #757575;
 }
 
 .leaf {
   transform: rotate(150deg);
+}
+.img {
+  color: transparent;
+  width: 1080px;
+  transform: translate(-110px, -40px) rotate(25deg);
+  opacity: 0.3;
+  max-width: 1000px;
+  width: 600px;
+}
+.c-img {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+@media (max-width: 620px) {
+  .c-left {
+    /* display: none; */
+    width: 100%;
+    border-bottom-right-radius: 0;
+  }
+  .c-right {
+    width: 300px;
+    position: absolute;
+    margin-top: 130px;
+  }
+  .c-login {
+    justify-content: center;
+    max-height: 100vh;
+  }
+  .img {
+    transform: translatey(60px) rotate(25deg);
+  }
+  .f-l-title {
+    color: white;
+  }
 }
