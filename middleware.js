@@ -29,10 +29,9 @@ export async function middleware(request) {
       if (privateRoute) {
         const { payload } = await jwtVerify(
           jwt.value,
-          new TextEncoder().encode("1234")
+          new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET)
         );
         console.log(payload);
-
         privateRoute.roles.includes(payload.role)
           ? NextResponse.next()
           : NextResponse.redirect(new URL("/account", request.url));
