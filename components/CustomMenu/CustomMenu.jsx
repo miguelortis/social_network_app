@@ -27,7 +27,7 @@ export default function CustomMenu({ children, open, onClose }) {
   return (
     open && (
       <div className="relative inline-block text-left" ref={menuRef}>
-        <div className="px-3 absolute right-0 mt-2 w-max bg-white border border-gray-200 rounded-md shadow-lg">
+        <div className="px-3 absolute right-0 top-[17px] mt-2 w-max bg-white border border-gray-200 rounded-md shadow-lg">
           <div className="py-1">{children && children}</div>
         </div>
       </div>
