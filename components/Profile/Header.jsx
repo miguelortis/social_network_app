@@ -126,7 +126,7 @@ export default function Header() {
               <div className="h-nickname">
                 <div
                   className="h-nick-name hover:cursor-pointer mr-2"
-                  onClick={() => router.push("/panel/home")}
+                  onClick={() => router.push("/account")}
                 >
                   {arrowLeftIcon}
                 </div>

@@ -39,7 +39,7 @@
 
 .subtitle {
   color: #fefefe;
-  font-size: 19px;
+  font-size: 25px;
   line-height: 40px;
   margin-bottom: 31px;
   padding: 0 20px;
@@ -87,5 +87,8 @@
   }
   .f-l-title {
     color: white;
+  }
+  .subtitle {
+    font-size: 19px;
   }
 }

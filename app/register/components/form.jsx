@@ -20,10 +20,9 @@ function Home() {
     };
     const res = await axios.post("auth/login", credentials, headers);
     if (res.status === 200) {
-      console.log(res);
       document.cookie = `token=${res.data.token}; path=/; max-age=2592000`; // 30 días
-      //localStorage.setItem("token", res.data.token);
-      router.push("/panel/home");
+
+      router.push("/");
     }
   };
 

@@ -5,9 +5,14 @@ import { useRouter } from "next/navigation";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import axios from "../../../config/axios";
 import Loader from "../../../components/Loader/Loader";
+import { useLoggedUserStore } from "../../../store/logged-user-store";
+import { jwtVerify } from "jose";
 
 function Home() {
   const router = useRouter();
+  const getLoggedUserData = useLoggedUserStore(
+    (state) => state.getLoggedUserData
+  );
 
   const [credentials, setCredentials] = useState({
     email: "",
@@ -25,7 +30,13 @@ function Home() {
       Accept: "application/json",
     };
     const res = await axios.post("auth/login", credentials, headers);
+
     if (res.status === 200) {
+      const { payload } = await jwtVerify(
+        res.data.token,
+        new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET)
+      );
+      getLoggedUserData(payload);
       setLoading(false);
       document.cookie = `token=${res.data.token}; path=/; max-age=2592000`; // 30 días
       router.push("/account");

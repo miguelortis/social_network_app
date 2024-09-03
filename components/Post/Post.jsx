@@ -84,14 +84,16 @@ export default function Post({ data, userData }) {
               className="h-12 w-12 flex-none rounded-full bg-gray-50 hover:cursor-pointer hover:border-solid hover:border-2 hover:border-black"
               src={data?.user?.profilePic}
               alt=""
-              onClick={() => router.push(`/panel/profile/${data?.user?._id}`)}
+              onClick={() => router.push(`/account/profile/${data?.user?._id}`)}
             />
           </div>
           <div className="shrink-0 sm:flex sm:flex-col px-4">
             <div className="min-w-0 flex-auto ">
               <p
                 className="text-sm font-semibold leading-6 text-gray-900 hover:cursor-pointer hover:underline"
-                onClick={() => router.push(`/panel/profile/${data?.user?._id}`)}
+                onClick={() =>
+                  router.push(`/account/profile/${data?.user?._id}`)
+                }
               >
                 {`${data?.user?.name} ${data?.user?.lastName}`}
               </p>

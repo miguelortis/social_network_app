@@ -1,4 +1,8 @@
+import { useLoggedUserStore } from "../../store/logged-user-store";
+
 export default function UserProfilePic({ userData }) {
+  const userLoggedData = useLoggedUserStore((state) => state.userLoggedData);
+
   return (
     <div className="flex items-center pt-4 pb-4">
       <div className="flex min-w-0 gap-x-4">
@@ -11,7 +15,7 @@ export default function UserProfilePic({ userData }) {
       <div className="shrink-0 sm:flex sm:flex-col px-4">
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-900">
-            {`${userData?.name} ${userData?.lastName}`}
+            {`${userLoggedData.name || ""} ${userLoggedData.lastName || ""}`}
           </p>
         </div>
       </div>
