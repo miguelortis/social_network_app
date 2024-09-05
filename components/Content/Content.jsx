@@ -1,13 +1,13 @@
-import PostList from "../PostList/PostList";
-import SendPost from "../SendPost/SendPost";
+import PostList from '../PostList/PostList'
+import CreatePost from '../CreatePost/CreatePost'
 
-const Content = ({ currentUser }) => {
+const Content = () => {
   return (
     <div>
-      <SendPost userData={currentUser} />
-      <PostList userData={currentUser} />
+      <CreatePost />
+      <PostList />
     </div>
-  );
-};
+  )
+}
 
-export default Content;
+export default Content
