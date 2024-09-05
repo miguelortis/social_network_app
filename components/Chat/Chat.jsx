@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Divider from "../Divider/Divider";
 import "./Chat.css";
+import { useLoggedUserStore } from "../../store/logged-user-store";
 
 const closeIcon = (
   <svg
@@ -73,8 +74,8 @@ export default function Chat({
   setFriendInfo,
   setChats,
   setUsers,
-  currentUser,
 }) {
+  const userLoggedData = useLoggedUserStore((state) => state.userLoggedData)
   const chatBodyRef = useRef(null);
 
   const [message, setMessage] = useState("");
@@ -90,8 +91,8 @@ export default function Chat({
   };
   const handleSubmit = () => {
     const newMessages = friendInfo?.messages?.length
-      ? [...friendInfo?.messages, { user: currentUser?._id, message: message }]
-      : [{ user: currentUser?._id, message: message }];
+      ? [...friendInfo?.messages, { user: userLoggedData?._id, message: message }]
+      : [{ user: userLoggedData?._id, message: message }];
 
     setFriendInfo((prev) => ({ ...prev, messages: newMessages }));
     setUsers((prev) =>

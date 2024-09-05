@@ -2,7 +2,7 @@ import { TbMenu2 } from 'react-icons/tb'
 import UserProfilePicMenu from '../UserProfilePicMenu/UserProfilePicMenu'
 import './styles/header.css'
 
-export default function Header({ setMobileFiltersOpen, userData }) {
+export default function Header({ setMobileFiltersOpen }) {
   return (
     <div className='header px-4 flex items-baseline items-center lg:justify-between  border-b border-gray-200 pb-3 pt-3'>
       <div className='grid grid-cols-1 md:grid-cols-3 grid-rows-1 w-full'>
