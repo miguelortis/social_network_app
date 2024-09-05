@@ -1,3 +1,14 @@
 {
-  "extends": ["next/babel", "next/core-web-vitals"]
+  "extends": ["next/babel", "next/core-web-vitals"],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "semi": false,
+        "jsxSingleQuote": true,
+        "jsxSemi": true
+      }
+    ]
+  }
 }
