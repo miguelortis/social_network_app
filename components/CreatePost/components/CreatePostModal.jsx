@@ -11,7 +11,13 @@ import CustomInputMention from '../../CustomInputMention/CustomInputMention'
 
 export default function CreatePostModal({ openModal, onClose, userData }) {
   const container = useRef(null)
+
   const [data, setData] = useState({ content: '' })
+
+  const handleSubmit = () => {
+    console.log(data)
+  }
+
   return (
     <Modal open={openModal} onClose={onClose}>
       <div className='w-[400px]'>
@@ -102,7 +108,7 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
                   </CustomTooltip>
                 </div>
                 <div className='flex m-2 justify-center items-center'>
-                  <CustomButtom onClick={() => onClose(false)}>
+                  <CustomButtom disabled={!data.content} onClick={handleSubmit}>
                     Publicar
                   </CustomButtom>
                 </div>
