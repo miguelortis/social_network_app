@@ -11,7 +11,7 @@ import CustomTooltip from '../CustomTooltip/CustomTooltip'
 import CreatePostModal from './components/CreatePostModal'
 import { useLoggedUserStore } from '../../store/logged-user-store'
 
-export default function CreatePost({ userData }) {
+export default function CreatePost() {
   const userLoggedData = useLoggedUserStore((state) => state.userLoggedData)
 
   const [openModal, setOpenModal] = useState(false)

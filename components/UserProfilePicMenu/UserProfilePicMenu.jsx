@@ -57,7 +57,7 @@ export default function UserProfilePicMenu() {
         <a className='px-4 py-2 w-52 text-gray-700 hover:bg-gray-100 flex items-center cursor-pointer'>
           <Avatar
             src={userLoggedData?.avatar}
-            className='h-9 w-9'
+            className='h-9 w-9 mr-2'
             alt='Profile Picture'
           />
           {`${userLoggedData.name || ''} ${userLoggedData.lastName || ''}`}
