@@ -21,6 +21,8 @@ const CustomButtom = ({
     : `w-full text-white px-4 py-2 ${
         loading
           ? `cursor-wait ${colors.disabled}`
+          : disabled
+          ? colors.disabled
           : colors[color] || colors.default
       } rounded-full uppercase ${className}`
 
