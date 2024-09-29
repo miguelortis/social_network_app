@@ -37,7 +37,7 @@ export default function PostList() {
     <>
       <AnimatePresence>
         {postList && postList?.length > 0
-          ? postList.map((item, i) => (
+          ? postList?.map((item, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: -20 }}

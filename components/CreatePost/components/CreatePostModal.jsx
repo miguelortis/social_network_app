@@ -17,7 +17,7 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
     setNewPost,
     isLoadingCreatePost,
     isSuccessCreatePost,
-    createPost,
+    createPost
   } = useCreatePost()
   const { postList, setPostList } = usePostList()
 
@@ -25,7 +25,7 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
 
   useEffect(() => {
     if (isSuccessCreatePost) {
-      setPostList([newPost, ...postList])
+      setPostList([newPost, ...(postList || [])])
       onClose()
     }
 
@@ -98,13 +98,13 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
                     dataContacts={[
                       {
                         id: 134,
-                        display: 'pedro arguelles',
+                        display: 'pedro arguelles'
                       },
                       { id: 134, display: 'Martin' },
                       { id: 134, display: 'Jacob' },
                       { id: 134, display: 'Javier' },
                       { id: 134, display: 'Vasu' },
-                      { id: 134, display: 'Lautaro' },
+                      { id: 134, display: 'Lautaro' }
                     ]}
                   />
                 </div>
@@ -132,6 +132,7 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
                 </div>
                 <div className='flex m-2 justify-center items-center'>
                   <CustomButtom
+                    className='w-full rounded-full'
                     disabled={!data.content}
                     onClick={handleSubmit}
                     loading={isLoadingCreatePost}
