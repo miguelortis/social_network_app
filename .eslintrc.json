@@ -7,7 +7,8 @@
         "singleQuote": true,
         "semi": false,
         "jsxSingleQuote": true,
-        "jsxSemi": true
+        "jsxSemi": true,
+        "trailingComma": "none"
       }
     ]
   }

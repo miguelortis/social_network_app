@@ -10,7 +10,7 @@ import Avatar from '../Avatar/Avatar'
 export default function UserProfilePicMenu() {
   const router = useRouter()
   const menuRef = useRef(null)
-  const userLoggedData = useLoggedUserStore((state) => state.userLoggedData)
+  const loggedUserData = useLoggedUserStore((state) => state.loggedUserData)
 
   const [isOpen, setIsOpen] = useState(false)
   const [openMenu, setOpenMenu] = useState(false)
@@ -24,9 +24,6 @@ export default function UserProfilePicMenu() {
       document.removeEventListener('keydown', handleEscape)
     }
   }, [])
-  const toggleMenu = () => {
-    setIsOpen(!isOpen)
-  }
   const handleClickOutside = (event) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
       setIsOpen(false)
@@ -46,7 +43,7 @@ export default function UserProfilePicMenu() {
           className='cursor-pointer flex items-center hover:opacity-80 rounded-full'
         >
           <Avatar
-            src={userLoggedData?.avatar}
+            src={loggedUserData?.avatar}
             className='h-11 w-11'
             alt='Profile Picture'
           />
@@ -56,11 +53,11 @@ export default function UserProfilePicMenu() {
       <CustomMenu open={openMenu} onClose={(e) => setOpenMenu(e)}>
         <a className='px-4 py-2 w-52 text-gray-700 hover:bg-gray-100 flex items-center cursor-pointer'>
           <Avatar
-            src={userLoggedData?.avatar}
+            src={loggedUserData?.avatar}
             className='h-9 w-9 mr-2'
             alt='Profile Picture'
           />
-          {`${userLoggedData.name || ''} ${userLoggedData.lastName || ''}`}
+          {`${loggedUserData.name || ''} ${loggedUserData.lastName || ''}`}
         </a>
         <Divider />
         <a className='px-4 py-2 w-52 text-gray-700 hover:bg-gray-100 flex items-center cursor-pointer'>

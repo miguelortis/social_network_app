@@ -1,27 +1,25 @@
-import { create } from "zustand";
-import { persist, devtools } from "zustand/middleware";
-import axios from "../config/axios";
+import { create } from 'zustand'
+import { persist, devtools } from 'zustand/middleware'
 
 export const useLoggedUserStore = create(
   devtools(
     persist(
       (set, get) => {
         return {
-          loadingUserLogged: false,
-          userLoggedData: {},
+          loggedUserData: {},
 
-          getLoggedUserData: (userLoggedData) => {
-            set({ userLoggedData });
+          setLoggedUserData: (loggedUserData) => {
+            set({ loggedUserData })
           },
 
           reset: () => {
-            set({ userLoggedData: {} });
-          },
-        };
+            set({ loggedUserData: {} })
+          }
+        }
       },
       {
-        name: "loggedUser",
+        name: 'loggedUser'
       }
     )
   )
-);
+)
