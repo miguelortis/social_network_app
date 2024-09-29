@@ -2,15 +2,15 @@ import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { FaChevronDown } from 'react-icons/fa'
 import { TbLogout, TbSettings } from 'react-icons/tb'
-import { useLoggedUserStore } from '../../store/logged-user-store'
 import CustomMenu from '../../components/CustomMenu/CustomMenu'
 import Divider from '../Divider/Divider'
 import Avatar from '../Avatar/Avatar'
+import { useAuth } from '../../hooks/stores/useAuth'
 
 export default function UserProfilePicMenu() {
   const router = useRouter()
   const menuRef = useRef(null)
-  const loggedUserData = useLoggedUserStore((state) => state.loggedUserData)
+  const { loggedUser } = useAuth()
 
   const [isOpen, setIsOpen] = useState(false)
   const [openMenu, setOpenMenu] = useState(false)
@@ -43,7 +43,7 @@ export default function UserProfilePicMenu() {
           className='cursor-pointer flex items-center hover:opacity-80 rounded-full'
         >
           <Avatar
-            src={loggedUserData?.avatar}
+            src={loggedUser?.avatar}
             className='h-11 w-11'
             alt='Profile Picture'
           />
@@ -53,11 +53,11 @@ export default function UserProfilePicMenu() {
       <CustomMenu open={openMenu} onClose={(e) => setOpenMenu(e)}>
         <a className='px-4 py-2 w-52 text-gray-700 hover:bg-gray-100 flex items-center cursor-pointer'>
           <Avatar
-            src={loggedUserData?.avatar}
+            src={loggedUser?.avatar}
             className='h-9 w-9 mr-2'
             alt='Profile Picture'
           />
-          {`${loggedUserData.name || ''} ${loggedUserData.lastName || ''}`}
+          {`${loggedUser?.name || ''} ${loggedUser?.lastName || ''}`}
         </a>
         <Divider />
         <a className='px-4 py-2 w-52 text-gray-700 hover:bg-gray-100 flex items-center cursor-pointer'>
