@@ -1,26 +1,16 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Divider from '../Divider/Divider'
 import SendComment from '../SendComment/SendComment'
+import CustomButtom from '../CustomButtom/CustomButtom'
+import { useReactionPost } from '../../hooks/stores/usePost'
+import { FaRegComment, FaRegHeart } from 'react-icons/fa'
+import { useAuth } from '../../hooks/stores/useAuth'
+import './styles/post.css'
 
 const likeIcon = (
   <svg
     className='h-5 w-5 text-blue-400'
-    fill='none'
-    viewBox='0 0 24 24'
-    stroke='currentColor'
-  >
-    <path
-      strokeLinecap='round'
-      strokeLinejoin='round'
-      strokeWidth='2'
-      d='M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z'
-    />
-  </svg>
-)
-const likeIconGray = (
-  <svg
-    className='h-8 w-8 text-gray-400'
     fill='none'
     viewBox='0 0 24 24'
     stroke='currentColor'
@@ -53,26 +43,25 @@ const commentIcon = (
     <line x1='16' y1='12' x2='16' y2='12.01' />
   </svg>
 )
-const commentIconGray = (
-  <svg
-    className='h-8 w-8 text-gray-400'
-    viewBox='0 0 24 24'
-    fill='none'
-    stroke='currentColor'
-    strokeWidth='2'
-    strokeLinecap='round'
-    strokeLinejoin='round'
-  >
-    {' '}
-    <path d='M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z' />
-  </svg>
-)
-
 export default function Post({ data }) {
   const router = useRouter()
   const commentRef = useRef(null)
+  const { addReactionPost } = useReactionPost()
+  const { loggedUser } = useAuth()
 
   const [showSendComment, setShowSendComment] = useState(false)
+  const [reactionType, setReactionType] = useState('')
+
+  useEffect(() => {
+    const reaction = data.reactions.find((r) => r.user === loggedUser?._id)
+    setReactionType(reaction?.type || '')
+  }, [data.reactions])
+
+  const handleReaction = (type) => {
+    addReactionPost({ _id: data._id, type: type })
+    setReactionType((prev) => (prev ? '' : type))
+  }
+
   return (
     <div className='bg-white lg:rounded-[12px] p-1 mt-3 mb-3'>
       <div className='px-4 pb-4'>
@@ -95,7 +84,7 @@ export default function Post({ data }) {
                   router.push(`/account/profile/${data?.author?._id}`)
                 }
               >
-                {`${data?.author?.name} ${data?.author?.lastName}`}
+                {`${data?.author?.name || ''} ${data?.author?.lastName || ''}`}
               </p>
               <span className='text-gray-500 text-xs'>4h</span>
             </div>
@@ -108,7 +97,7 @@ export default function Post({ data }) {
       <div className='px-4 flex justify-between'>
         <div className='flex items-center'>
           {likeIcon}
-          <span className='text-gray-300 text-xs px-1'>1.5 mil</span>
+          <span className='text-gray-300 text-xs px-1'>{`${data.reactions.length}`}</span>
         </div>
         <div className='flex items-center'>
           {commentIcon}
@@ -117,21 +106,28 @@ export default function Post({ data }) {
       </div>
       <Divider style={{ width: '95%' }} />
       {/* like and comment buttons */}
-      <div className='flex justify-evenly items-center py-1 '>
-        <button className='flex items-center hover:bg-gray-100 rounded-3xl p-1'>
-          {likeIconGray}
-          <span className='text-gray-400 text-sm'>Me gusta</span>
-        </button>
-        <button
-          className='flex items-center hover:bg-gray-100 rounded-3xl p-1'
+      <div className='flex justify-evenly items-center py-1'>
+        <CustomButtom
+          onClick={() => handleReaction('like')}
+          className='w-[150px] h-[35px] flex items-center hover:bg-gray-100 rounded p-1 bg-transparent'
+        >
+          <div
+            className={`flex items-center text-sm text-gray-400 ${reactionType}`}
+          >
+            <FaRegHeart className='mx-2 h-7 w-7 text-inherit' />
+            <span className='text-inherit'>Me gusta</span>
+          </div>
+        </CustomButtom>
+        <CustomButtom
+          className='w-[150px] h-[35px] flex items-center hover:bg-gray-100 rounded p-1 bg-transparent'
           onClick={() => [
             setShowSendComment(true),
-            commentRef?.current?.focus(),
+            commentRef?.current?.focus()
           ]}
         >
-          {commentIconGray}
+          <FaRegComment className='mx-2 h-7 w-7 fill-gray-400' />
           <span className='text-gray-400 text-sm'>Comentar</span>
-        </button>
+        </CustomButtom>
       </div>
       <Divider style={{ width: '95%' }} />
       {/* add comment component */}

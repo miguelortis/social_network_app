@@ -1,11 +1,11 @@
 'use client'
 
-import useAlertStore from '../../store/alert-store'
+import { useAlert } from '../../hooks/stores/useAlert'
 import CustomButtom from '../CustomButtom/CustomButtom'
 import { MdClose } from 'react-icons/md'
 
 const Alert = () => {
-  const { alerts, removeAlert, pauseAlert, resumeAlert } = useAlertStore()
+  const { alerts, removeAlert, pauseAlert, resumeAlert } = useAlert()
 
   const pausedAlert = (alertId) => {
     pauseAlert(alertId)
@@ -16,7 +16,7 @@ const Alert = () => {
 
   return (
     <div className='fixed bottom-0 left-0 p-4 space-y-2'>
-      {alerts.map((alert) => (
+      {alerts?.map((alert) => (
         <div
           key={alert.id}
           className={`flex items-centertransition-opacity duration-500 opacity-100 py-2 px-4 rounded shadow-lg ${

@@ -24,7 +24,7 @@ const CustomButtom = ({
           : disabled
           ? colors.disabled
           : colors[color] || colors.default
-      } rounded-full uppercase ${className}`
+      } uppercase ${className}`
 
   return (
     <button disabled={loading || disabled} className={classType} {...props}>

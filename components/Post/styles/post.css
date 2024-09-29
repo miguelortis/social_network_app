@@ -1,0 +1,28 @@
+/* Me gusta */
+.like {
+  color: rgb(96 165 250);
+}
+/* Me encanta */
+.love {
+  color: rgb(239 68 68);
+}
+/* Me entristece */
+.sad {
+  color: rgb(255 179 0);
+}
+/* Me enoja */
+.angry {
+  color: rgb(255, 130, 80);
+}
+/* Me asombra */
+.amazed {
+  color: rgb(255 179 0);
+}
+/* Me divierte */
+.fun {
+  color: rgb(255 179 0);
+}
+/* Me importa */
+.care {
+  color: rgb(255 179 0);
+}

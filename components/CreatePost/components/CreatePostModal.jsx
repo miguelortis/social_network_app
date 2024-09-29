@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { TbX } from 'react-icons/tb'
 import { IoMdImages } from 'react-icons/io'
 import { MdOutlineEmojiEmotions } from 'react-icons/md'
@@ -8,20 +8,40 @@ import CustomButtom from '../../CustomButtom/CustomButtom'
 import CustomTooltip from '../../CustomTooltip/CustomTooltip'
 import Avatar from '../../Avatar/Avatar'
 import CustomInputMention from '../../CustomInputMention/CustomInputMention'
+import { useCreatePost, usePostList } from '../../../hooks/stores/usePost'
 
 export default function CreatePostModal({ openModal, onClose, userData }) {
   const container = useRef(null)
+  const {
+    newPost,
+    setNewPost,
+    isLoadingCreatePost,
+    isSuccessCreatePost,
+    createPost,
+  } = useCreatePost()
+  const { postList, setPostList } = usePostList()
 
   const [data, setData] = useState({ content: '' })
 
+  useEffect(() => {
+    if (isSuccessCreatePost) {
+      setPostList([newPost, ...postList])
+      onClose()
+    }
+
+    return () => {
+      setNewPost(null)
+    }
+  }, [isSuccessCreatePost])
+
   const handleSubmit = () => {
-    console.log(data)
+    createPost(data)
   }
 
   return (
     <Modal open={openModal} onClose={onClose}>
       <div className='w-[400px]'>
-        <div className='h-card-container'>
+        <div>
           <div>
             <div className='relative'>
               <div className='flex flex-col'>
@@ -52,6 +72,7 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
                   ref={container}
                 >
                   <CustomInputMention
+                    disabled={isLoadingCreatePost}
                     placeholder={`Que estas pensando, ${userData?.name || ''}?`}
                     value={data.content}
                     suggestionsPortalHost={container.current}
@@ -92,7 +113,8 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
                     <CustomButtom
                       className='mx-[2px]'
                       iconButton
-                      onClick={() => onClose(false)}
+                      onClick={() => onClose()}
+                      disabled={isLoadingCreatePost}
                     >
                       <IoMdImages className='w-6 h-6' />
                     </CustomButtom>
@@ -101,14 +123,19 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
                     <CustomButtom
                       className='mx-[2px]'
                       iconButton
-                      onClick={() => onClose(false)}
+                      onClick={() => onClose()}
+                      disabled={isLoadingCreatePost}
                     >
                       <MdOutlineEmojiEmotions className='w-6 h-6' />
                     </CustomButtom>
                   </CustomTooltip>
                 </div>
                 <div className='flex m-2 justify-center items-center'>
-                  <CustomButtom disabled={!data.content} onClick={handleSubmit}>
+                  <CustomButtom
+                    disabled={!data.content}
+                    onClick={handleSubmit}
+                    loading={isLoadingCreatePost}
+                  >
                     Publicar
                   </CustomButtom>
                 </div>
