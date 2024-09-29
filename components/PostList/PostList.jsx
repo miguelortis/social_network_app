@@ -3,34 +3,52 @@
 import { useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Post from '../Post/Post'
-import { useLoggedUserStore } from '../../store/logged-user-store'
-import { usePostListStore } from '../../store/post-store'
-import { usePost } from '../../hooks/querys/usePost'
+import LoadingPost from './components/LoadingPost'
+import { usePostList, useReactionPost } from '../../hooks/stores/usePost'
+import { useAuth } from '../../hooks/stores/useAuth'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export default function PostList() {
-  const userLoggedData = useLoggedUserStore((state) => state.userLoggedData)
-  const { fetchPosts } = usePost()
-  const postList = usePostListStore((state) => state.postList)
-  const setPostList = usePostListStore((state) => state.setPostList)
+  const { getPostList, postList, setPostList, isLoadingPostList } =
+    usePostList()
+  const { reactionPost, setReactionPost, isSuccessReactionPost } =
+    useReactionPost()
+  const { loggedUser } = useAuth()
   const { user } = useParams()
 
   useEffect(() => {
-    fetchPosts.mutate('', {
-      onSuccess: async (data) => {
-        setPostList(data.data)
-      },
-      onError: (error) => {
-        console.error(error.response.data.message)
-      },
-    })
+    getPostList()
   }, [])
+  useEffect(() => {
+    if (isSuccessReactionPost) {
+      setPostList(
+        postList?.map((post) =>
+          post._id === reactionPost?._id
+            ? { ...post, reactions: reactionPost?.reactions }
+            : post
+        )
+      )
+      setReactionPost(null)
+    }
+  }, [isSuccessReactionPost])
 
   return (
     <>
-      {postList &&
-        postList?.map((item, i) => {
-          return <Post key={i} data={item} userData={userLoggedData} />
-        })}
+      <AnimatePresence>
+        {postList &&
+          postList?.map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Post data={item} userData={loggedUser} />
+            </motion.div>
+          ))}
+      </AnimatePresence>
+      {isLoadingPostList && <LoadingPost />}
     </>
   )
 }

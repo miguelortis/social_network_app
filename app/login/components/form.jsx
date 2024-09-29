@@ -1,21 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
-import { jwtVerify } from 'jose'
 import Loader from '../../../components/Loader/Loader'
-import { useLoggedUserStore } from '../../../store/logged-user-store'
-import { useAuth } from '../../../hooks/querys/useAuth'
-import useAlertStore from '../../../store/alert-store'
+import { useAuth } from '../../../hooks/stores/useAuth'
 
 const Form = () => {
-  const fetchAuth = useAuth()
-  const router = useRouter()
-  const getLoggedUserData = useLoggedUserStore(
-    (state) => state.getLoggedUserData
-  )
-  const addAlert = useAlertStore((state) => state.addAlert)
+  const { loginUser, isLoadingLoggedUser } = useAuth()
 
   const [credentials, setCredentials] = useState({
     email: '',
@@ -25,21 +16,8 @@ const Form = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const { mutate } = fetchAuth
-    mutate(credentials, {
-      onSuccess: async (data) => {
-        const { payload } = await jwtVerify(
-          data.data.token,
-          new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET)
-        )
-        getLoggedUserData(payload)
-        document.cookie = `token=${data.data.token}; path=/; max-age=2592000` // 30 días
-        router.push('/account')
-      },
-      onError: (error) => {
-        addAlert('error', error.response.data.message)
-      },
-    })
+
+    loginUser(credentials)
   }
   const handleShowPassword = () => {
     setShowPassword(showPassword === 'password' ? 'text' : 'password')
@@ -107,17 +85,17 @@ const Form = () => {
           </div>
           <div className='mb-5 mt-5'>
             <button
-              disabled={fetchAuth.isPending}
+              disabled={isLoadingLoggedUser}
               type='submit'
               className={`w-full text-white px-4 py-2 ${
-                fetchAuth.isPending
+                isLoadingLoggedUser
                   ? 'cursor-wait bg-gray-300'
                   : 'bg-blue-500/50 hover:bg-blue-500'
               } rounded-full uppercase`}
             >
               <div className='flex items-center justify-center relative'>
                 <span>Iniciar Sesion</span>
-                {fetchAuth.isPending && (
+                {isLoadingLoggedUser && (
                   <div className='absolute right-0'>
                     <Loader width={20} height={20} />
                   </div>

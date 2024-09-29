@@ -9,10 +9,10 @@ import Avatar from '../Avatar/Avatar'
 import CustomButtom from '../CustomButtom/CustomButtom'
 import CustomTooltip from '../CustomTooltip/CustomTooltip'
 import CreatePostModal from './components/CreatePostModal'
-import { useLoggedUserStore } from '../../store/logged-user-store'
+import { useAuth } from '../../hooks/stores/useAuth'
 
 export default function CreatePost() {
-  const userLoggedData = useLoggedUserStore((state) => state.userLoggedData)
+  const { loggedUser } = useAuth()
 
   const [openModal, setOpenModal] = useState(false)
 
@@ -20,7 +20,7 @@ export default function CreatePost() {
     <div className='bg-white lg:rounded-[12px] p-1'>
       <div className='m-4 flex items-center'>
         <div className='flex items-center px-2'>
-          <Avatar src={userLoggedData?.avatar} />
+          <Avatar src={loggedUser?.avatar} />
         </div>
         <input
           onClick={() => setOpenModal(true)}
@@ -29,7 +29,7 @@ export default function CreatePost() {
           name='price'
           id='price'
           className='rounded-3xl w-full h-8 border-none outline-none py-1.5 pl-4 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:bg-[#d3d3d342]'
-          placeholder={`Qué estás pensando, ${userLoggedData.name || ''}?`}
+          placeholder={`Qué estás pensando, ${loggedUser?.name || ''}?`}
         />
       </div>
       <Divider style={{ width: '90%' }} />
@@ -66,7 +66,7 @@ export default function CreatePost() {
         <CreatePostModal
           onClose={() => setOpenModal(false)}
           openModal={openModal}
-          userData={userLoggedData}
+          userData={loggedUser}
         />
       )}
     </div>
