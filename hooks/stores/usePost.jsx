@@ -83,7 +83,6 @@ const usePostList = () => {
       })
     },
     onError: (error) => {
-      addAlert('error', error.response.data.message)
       setState({
         [POST_LIST]: null,
         [POST_LIST_ERROR]: error.response.data.message,
