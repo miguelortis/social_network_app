@@ -55,7 +55,7 @@ export default function Post({ data }) {
   useEffect(() => {
     const reaction = data.reactions.find((r) => r.user === loggedUser?._id)
     setReactionType(reaction?.type || '')
-  }, [data.reactions])
+  }, [data?.reactions])
 
   const handleReaction = (type) => {
     addReactionPost({ _id: data._id, type: type })
