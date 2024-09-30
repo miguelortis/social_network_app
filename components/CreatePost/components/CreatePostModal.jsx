@@ -46,7 +46,8 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
   const extractLinks = (inputText) => {
     const urlPattern = /(?:https?:\/\/)?(www\.[^\s]+\.[a-z]{2,})/gi
     const detectedLinks = inputText?.match(urlPattern) || []
-    const formattedLinks = detectedLinks?.map((link) => {
+    const uniqueLinks = [...new Set(detectedLinks)]
+    const formattedLinks = uniqueLinks.map((link) => {
       const domain = link
         .replace('https://', '')
         .replace('http://', '')
@@ -58,7 +59,6 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
     })
     setLinks(formattedLinks)
   }
-
   return (
     <Modal open={openModal} onClose={onClose}>
       <div className='w-[400px]'>
@@ -88,35 +88,49 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
                     </span>
                   </div>
                 </div>
-                <div
-                  className='px-2 w-full max-h-[300px] overflow-y-auto c-mention-input'
-                  ref={container}
-                >
-                  <CustomInputMention
-                    disabled={isLoadingCreatePost}
-                    placeholder={`Que estas pensando, ${userData?.name || ''}?`}
-                    value={data.content}
-                    suggestionsPortalHost={container.current}
-                    allowSuggestionsAboveCursor={true}
-                    onChange={(newValue, mentions) => {
-                      setData((prev) => ({
-                        ...prev,
-                        content: newValue,
-                        mentions: mentions?.map((mention) => mention?.id)
-                      }))
-                      extractLinks(newValue)
-                    }}
-                    data={(query, callback) => fetchUsers(query, callback)}
-                  />
-                  <div>
+                <div className='px-2 w-full ' ref={container}>
+                  <div className='max-h-[190px] overflow-y-auto c-mention-input'>
+                    <CustomInputMention
+                      disabled={isLoadingCreatePost}
+                      placeholder={`Que estas pensando, ${
+                        userData?.name || ''
+                      }?`}
+                      value={data.content}
+                      suggestionsPortalHost={container.current}
+                      allowSuggestionsAboveCursor={true}
+                      onChange={({}, newValue, {}, mentions) => {
+                        setData((prev) => ({
+                          ...prev,
+                          content: newValue,
+                          mentions: mentions?.map((mention) => mention?.id)
+                        }))
+                        extractLinks(newValue)
+                      }}
+                      data={(query, callback) => fetchUsers(query, callback)}
+                    />
+                  </div>
+                  <div className='max-h-[160px] overflow-y-auto'>
                     {links?.map((link, index) => (
                       <div
                         key={index}
                         className='bg-slate-100 border-slate-200 border-[1px] border-solid my-2.5 p-2.5 rounded'
                       >
-                        <p>
-                          <strong>{link?.domain}</strong>
-                        </p>
+                        <div className='flex justify-between'>
+                          <p>
+                            <strong>{link?.domain}</strong>
+                          </p>
+                          <CustomButtom
+                            iconButton
+                            onClick={() =>
+                              setLinks((links) =>
+                                links?.filter((l, i) => i !== index)
+                              )
+                            }
+                            disabled={isLoadingCreatePost}
+                          >
+                            <TbX className='text-slate-400' />
+                          </CustomButtom>
+                        </div>
                         <a
                           href={link?.url}
                           target='_blank'
