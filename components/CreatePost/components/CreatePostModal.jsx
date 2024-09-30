@@ -45,14 +45,14 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
   }
   const extractLinks = (inputText) => {
     const urlPattern = /(?:https?:\/\/)?(www\.[^\s]+\.[a-z]{2,})/gi
-    const detectedLinks = inputText.match(urlPattern) || []
-    const formattedLinks = detectedLinks.map((link) => {
+    const detectedLinks = inputText?.match(urlPattern) || []
+    const formattedLinks = detectedLinks?.map((link) => {
       const domain = link
         .replace('https://', '')
         .replace('http://', '')
         .replace('www.', '')
         .toUpperCase()
-      const url = link.replace('https://', '').replace('http://', '')
+      const url = link?.replace('https://', '').replace('http://', '')
 
       return { url, domain }
     })
@@ -102,27 +102,27 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
                       setData((prev) => ({
                         ...prev,
                         content: newValue,
-                        mentions: mentions.map((mention) => mention.id)
+                        mentions: mentions?.map((mention) => mention?.id)
                       }))
                       extractLinks(newValue)
                     }}
                     data={(query, callback) => fetchUsers(query, callback)}
                   />
                   <div>
-                    {links.map((link, index) => (
+                    {links?.map((link, index) => (
                       <div
                         key={index}
                         className='bg-slate-100 border-slate-200 border-[1px] border-solid my-2.5 p-2.5 rounded'
                       >
                         <p>
-                          <strong>{link.domain}</strong>
+                          <strong>{link?.domain}</strong>
                         </p>
                         <a
-                          href={link.url}
+                          href={link?.url}
                           target='_blank'
                           rel='noopener noreferrer'
                         >
-                          {link.url}
+                          {link?.url}
                         </a>
                       </div>
                     ))}
