@@ -29,6 +29,7 @@
   "devDependencies": {
     "@types/node": "22.5.0",
     "@types/react": "18.3.5",
+    "@types/react-mentions": "^4.4.0",
     "autoprefixer": "^10",
     "eslint": "^8",
     "eslint-config-next": "13.5.6",

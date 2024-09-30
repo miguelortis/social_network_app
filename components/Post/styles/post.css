@@ -26,3 +26,17 @@
 .care {
   color: rgb(255 179 0);
 }
+
+.mention {
+  font-weight: 600;
+  color: #5aa7ff;
+}
+
+.link {
+  font-weight: 600;
+  color: #5aa7ff;
+}
+.link:hover {
+  color: #5aa7ffbb;
+  text-decoration: underline;
+}
