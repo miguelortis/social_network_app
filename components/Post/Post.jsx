@@ -5,6 +5,7 @@ import SendComment from '../SendComment/SendComment'
 import CustomButtom from '../CustomButtom/CustomButtom'
 import { useReactionPost } from '../../hooks/stores/usePost'
 import { FaRegComment, FaRegHeart } from 'react-icons/fa'
+import { processContent } from '../../utils/helpers/process-content'
 import { useAuth } from '../../hooks/stores/useAuth'
 import './styles/post.css'
 
@@ -91,16 +92,21 @@ export default function Post({ data }) {
           </div>
         </div>
         <div className='text-gray-500'>
-          <pre className='text-left font-sans'>{data.content}</pre>
+          <pre
+            className='text-left whitespace-pre-wrap font-sans'
+            dangerouslySetInnerHTML={{
+              __html: processContent(data?.content, data?.mentions)
+            }}
+          />
         </div>
       </div>
       <div className='px-4 flex justify-between'>
         <div className='flex items-center'>
-          {likeIcon}
-          <span className='text-gray-300 text-xs px-1'>{`${data.reactions.length}`}</span>
+          <FaRegHeart className='h-4 w-4 text-blue-400' />
+          <span className='text-gray-300 text-xs px-1'>{`${data?.reactions?.length}`}</span>
         </div>
         <div className='flex items-center'>
-          {commentIcon}
+          <FaRegComment className='h-4 w-4 text-blue-400' />
           <span className='text-gray-300 text-xs px-1'>45</span>
         </div>
       </div>

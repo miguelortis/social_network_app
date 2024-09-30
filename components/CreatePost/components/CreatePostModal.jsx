@@ -9,6 +9,7 @@ import CustomTooltip from '../../CustomTooltip/CustomTooltip'
 import Avatar from '../../Avatar/Avatar'
 import CustomInputMention from '../../CustomInputMention/CustomInputMention'
 import { useCreatePost, usePostList } from '../../../hooks/stores/usePost'
+import axios from '../../../config/axios'
 
 export default function CreatePostModal({ openModal, onClose, userData }) {
   const container = useRef(null)
@@ -22,6 +23,7 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
   const { postList, setPostList } = usePostList()
 
   const [data, setData] = useState({ content: '' })
+  const [links, setLinks] = useState([])
 
   useEffect(() => {
     if (isSuccessCreatePost) {
@@ -36,6 +38,25 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
 
   const handleSubmit = () => {
     createPost(data)
+  }
+  const fetchUsers = async (query, callback) => {
+    const response = await axios.get(`user/search?searchQuery=${query}`)
+    callback(response.data)
+  }
+  const extractLinks = (inputText) => {
+    const urlPattern = /(?:https?:\/\/)?(www\.[^\s]+\.[a-z]{2,})/gi
+    const detectedLinks = inputText.match(urlPattern) || []
+    const formattedLinks = detectedLinks.map((link) => {
+      const domain = link
+        .replace('https://', '')
+        .replace('http://', '')
+        .replace('www.', '')
+        .toUpperCase()
+      const url = link.replace('https://', '').replace('http://', '')
+
+      return { url, domain }
+    })
+    setLinks(formattedLinks)
   }
 
   return (
@@ -77,36 +98,35 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
                     value={data.content}
                     suggestionsPortalHost={container.current}
                     allowSuggestionsAboveCursor={true}
-                    onChange={(
-                      event,
-                      newValue,
-                      newPlainTextValue,
-                      mentions
-                    ) => {
-                      setData((prev) => ({ ...prev, content: newValue }))
-                      console.log(
-                        'event:',
-                        event,
-                        'newValue:',
-                        newValue,
-                        'newPlainTextValue:',
-                        newPlainTextValue,
-                        'mentions:',
-                        mentions
-                      )
+                    onChange={(newValue, mentions) => {
+                      setData((prev) => ({
+                        ...prev,
+                        content: newValue,
+                        mentions: mentions.map((mention) => mention.id)
+                      }))
+                      extractLinks(newValue)
                     }}
-                    dataContacts={[
-                      {
-                        id: 134,
-                        display: 'pedro arguelles'
-                      },
-                      { id: 134, display: 'Martin' },
-                      { id: 134, display: 'Jacob' },
-                      { id: 134, display: 'Javier' },
-                      { id: 134, display: 'Vasu' },
-                      { id: 134, display: 'Lautaro' }
-                    ]}
+                    data={(query, callback) => fetchUsers(query, callback)}
                   />
+                  <div>
+                    {links.map((link, index) => (
+                      <div
+                        key={index}
+                        className='bg-slate-100 border-slate-200 border-[1px] border-solid my-2.5 p-2.5 rounded'
+                      >
+                        <p>
+                          <strong>{link.domain}</strong>
+                        </p>
+                        <a
+                          href={link.url}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                        >
+                          {link.url}
+                        </a>
+                      </div>
+                    ))}
+                  </div>
                 </div>
                 <div className='mx-4 flex'>
                   <CustomTooltip title='Foto/Video'>
