@@ -8,7 +8,7 @@ export default function CustomInputMention({
   placeholder,
   suggestionsPortalHost,
   allowSuggestionsAboveCursor,
-  dataContacts = [],
+  data = []
 }) {
   return (
     <MentionsInput
@@ -21,7 +21,7 @@ export default function CustomInputMention({
       a11ySuggestionsListLabel={'Suggested mentions'}
       allowSpaceInQuery
     >
-      <Mention style={mentionsStyle} data={dataContacts} appendSpaceOnAdd />
+      <Mention trigger='@' style={mentionsStyle} data={data} appendSpaceOnAdd />
     </MentionsInput>
   )
 }
