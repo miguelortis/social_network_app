@@ -18,7 +18,8 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
     setNewPost,
     isLoadingCreatePost,
     isSuccessCreatePost,
-    createPost
+    createPost,
+    resetCreatePost
   } = useCreatePost()
   const { postList, setPostList } = usePostList()
 
@@ -29,6 +30,7 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
     if (isSuccessCreatePost) {
       setPostList([newPost, ...(postList || [])])
       onClose()
+      resetCreatePost()
     }
 
     return () => {
