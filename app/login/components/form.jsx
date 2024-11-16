@@ -9,8 +9,8 @@ const Form = () => {
   const { loginUser, isLoadingLoggedUser } = useAuth()
 
   const [credentials, setCredentials] = useState({
-    email: '',
-    password: '',
+    email: 'rene@gmail.com',
+    password: '1234'
   })
   const [showPassword, setShowPassword] = useState('password')
 
@@ -39,10 +39,11 @@ const Form = () => {
                 required
                 type='email'
                 name='email'
+                value={credentials.email}
                 onChange={(e) =>
                   setCredentials({
                     ...credentials,
-                    email: e.target.value,
+                    email: e.target.value
                   })
                 }
               />
@@ -56,10 +57,11 @@ const Form = () => {
                 required
                 type={showPassword}
                 name='password'
+                value={credentials.password}
                 onChange={(e) =>
                   setCredentials({
                     ...credentials,
-                    password: e.target.value,
+                    password: e.target.value
                   })
                 }
               />
