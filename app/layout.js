@@ -10,7 +10,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang='en'>
-      <body id='body'>
+      <body>
         <Providers>{children}</Providers>
         <div className='fixed bottom-0 left-0 p-4'>
           <Alert />

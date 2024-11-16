@@ -3,41 +3,59 @@
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 
-const modalRoot =
-  document?.getElementById('modal-root') || document?.getElementById('body')
-
 const Modal = ({ children, open, onClose }) => {
-  useEffect(() => {
-    document.addEventListener('keydown', handleEscape)
+  const [modalRoot, setModalRoot] = useState(null)
 
-    return () => {
-      document.removeEventListener('keydown', handleEscape)
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      setModalRoot(
+        document.getElementById('modal-root') || document.getElementById('body')
+      )
     }
   }, [])
+
   useEffect(() => {
-    if (open) {
+    const handleEscape = (event) => {
+      if (event.key === 'Escape' && onClose) {
+        onClose(false)
+      }
+    }
+
+    if (typeof document !== 'undefined') {
+      document.addEventListener('keydown', handleEscape)
+    }
+
+    return () => {
+      if (typeof document !== 'undefined') {
+        document.removeEventListener('keydown', handleEscape)
+      }
+    }
+  }, [onClose])
+
+  useEffect(() => {
+    if (open && typeof document !== 'undefined') {
       document.body.style.overflow = 'hidden'
     }
     return () => {
-      document.body.style.overflow = 'auto'
+      if (typeof document !== 'undefined') {
+        document.body.style.overflow = 'auto'
+      }
     }
-  }, [])
+  }, [open])
 
   const handleOutsideClick = (e) => {
     if (e.target === e.currentTarget) {
       handleClose()
     }
   }
+
   const handleClose = () => {
     if (onClose) {
       onClose(false)
     }
   }
-  const handleEscape = (event) => {
-    if (event.key === 'Escape' && onClose) {
-      onClose(false)
-    }
-  }
+
+  if (!modalRoot) return null
 
   return open
     ? createPortal(
