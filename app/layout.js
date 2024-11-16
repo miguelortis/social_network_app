@@ -4,7 +4,7 @@ import './globals.css'
 
 export const metadata = {
   title: 'Only Voyer',
-  description: 'Contenido Only Voyer',
+  description: 'Contenido Only Voyer'
 }
 
 export default function RootLayout({ children }) {
@@ -15,6 +15,7 @@ export default function RootLayout({ children }) {
         <div className='fixed bottom-0 left-0 p-4'>
           <Alert />
         </div>
+        <div id='modal-root'></div>
       </body>
     </html>
   )

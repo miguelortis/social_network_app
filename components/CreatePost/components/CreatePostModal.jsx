@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { TbX } from 'react-icons/tb'
 import { IoMdImages } from 'react-icons/io'
 import { MdOutlineEmojiEmotions } from 'react-icons/md'
+import axios from '../../../config/axios'
 import Modal from '../../Modal/Modal'
 import Divider from '../../Divider/Divider'
 import CustomButtom from '../../CustomButtom/CustomButtom'
@@ -9,7 +10,7 @@ import CustomTooltip from '../../CustomTooltip/CustomTooltip'
 import Avatar from '../../Avatar/Avatar'
 import CustomInputMention from '../../CustomInputMention/CustomInputMention'
 import { useCreatePost, usePostList } from '../../../hooks/stores/usePost'
-import axios from '../../../config/axios'
+import LinksToDisplay from '../../LinksToDisplay/LinksToDisplay'
 
 export default function CreatePostModal({ openModal, onClose, userData }) {
   const container = useRef(null)
@@ -18,7 +19,8 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
     setNewPost,
     isLoadingCreatePost,
     isSuccessCreatePost,
-    createPost
+    createPost,
+    resetCreatePost
   } = useCreatePost()
   const { postList, setPostList } = usePostList()
 
@@ -29,6 +31,7 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
     if (isSuccessCreatePost) {
       setPostList([newPost, ...(postList || [])])
       onClose()
+      resetCreatePost()
     }
 
     return () => {
@@ -37,7 +40,7 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
   }, [isSuccessCreatePost])
 
   const handleSubmit = () => {
-    createPost(data)
+    createPost({ ...data, links })
   }
   const fetchUsers = async (query, callback) => {
     const response = await axios.get(`user/search?searchQuery=${query}`)
@@ -47,18 +50,9 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
     const urlPattern = /(?:https?:\/\/)?(www\.[^\s]+\.[a-z]{2,})/gi
     const detectedLinks = inputText?.match(urlPattern) || []
     const uniqueLinks = [...new Set(detectedLinks)]
-    const formattedLinks = uniqueLinks.map((link) => {
-      const domain = link
-        .replace('https://', '')
-        .replace('http://', '')
-        .replace('www.', '')
-        .toUpperCase()
-      const url = link?.replace('https://', '').replace('http://', '')
-
-      return { url, domain }
-    })
-    setLinks(formattedLinks)
+    setLinks(uniqueLinks)
   }
+
   return (
     <Modal open={openModal} onClose={onClose}>
       <div className='w-[400px]'>
@@ -109,37 +103,8 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
                       data={(query, callback) => fetchUsers(query, callback)}
                     />
                   </div>
-                  <div className='max-h-[160px] overflow-y-auto'>
-                    {links?.map((link, index) => (
-                      <div
-                        key={index}
-                        className='bg-slate-100 border-slate-200 border-[1px] border-solid my-2.5 p-2.5 rounded'
-                      >
-                        <div className='flex justify-between'>
-                          <p>
-                            <strong>{link?.domain}</strong>
-                          </p>
-                          <CustomButtom
-                            iconButton
-                            onClick={() =>
-                              setLinks((links) =>
-                                links?.filter((l, i) => i !== index)
-                              )
-                            }
-                            disabled={isLoadingCreatePost}
-                          >
-                            <TbX className='text-slate-400' />
-                          </CustomButtom>
-                        </div>
-                        <a
-                          href={link?.url}
-                          target='_blank'
-                          rel='noopener noreferrer'
-                        >
-                          {link?.url}
-                        </a>
-                      </div>
-                    ))}
+                  <div>
+                    <LinksToDisplay links={links} setLinks={setLinks} />
                   </div>
                 </div>
                 <div className='mx-4 flex'>
@@ -153,7 +118,7 @@ export default function CreatePostModal({ openModal, onClose, userData }) {
                       <IoMdImages className='w-6 h-6' />
                     </CustomButtom>
                   </CustomTooltip>
-                  <CustomTooltip title='Foto/Video'>
+                  <CustomTooltip title='Emojis'>
                     <CustomButtom
                       className='mx-[2px]'
                       iconButton
