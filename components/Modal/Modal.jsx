@@ -3,9 +3,10 @@
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 
-const Modal = ({ children, open, onClose }) => {
-  const modalRoot = document?.getElementById('modal-root') || document?.body
+const modalRoot =
+  document?.getElementById('modal-root') || document?.getElementById('body')
 
+const Modal = ({ children, open, onClose }) => {
   useEffect(() => {
     document.addEventListener('keydown', handleEscape)
 
