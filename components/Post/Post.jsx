@@ -7,7 +7,10 @@ import { useReactionPost } from '../../hooks/stores/usePost'
 import { FaRegComment, FaRegHeart } from 'react-icons/fa'
 import { processContent } from '../../utils/helpers/process-content'
 import { useAuth } from '../../hooks/stores/useAuth'
+import LinksToDisplay from '../LinksToDisplay/LinksToDisplay'
 import './styles/post.css'
+import Modal from '../Modal/Modal'
+import Comments from './components/Comments'
 
 export default function Post({ data }) {
   const router = useRouter()
@@ -65,6 +68,9 @@ export default function Post({ data }) {
           />
         </div>
       </div>
+      <div>
+        <LinksToDisplay links={data?.links} closeButton={false} />
+      </div>
       <div className='px-4 flex justify-between'>
         <div className='flex items-center'>
           <FaRegHeart className='h-4 w-4 text-blue-400' />
@@ -101,8 +107,13 @@ export default function Post({ data }) {
         </CustomButtom>
       </div>
       <Divider style={{ width: '95%' }} />
+      <Comments
+        commentRef={commentRef}
+        showSendComment={showSendComment}
+        data={data}
+      />
       {/* add comment component */}
-      {showSendComment && <SendComment commentRef={commentRef} />}
+      {/* {showSendComment && <SendComment commentRef={commentRef} />} */}
     </div>
   )
 }

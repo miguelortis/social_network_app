@@ -1,6 +1,9 @@
 'use client'
 
 import { useEffect } from 'react'
+import { createPortal } from 'react-dom'
+
+const modalRoot = document?.getElementById('modal-root') || document?.body
 
 const Modal = ({ children, open, onClose }) => {
   useEffect(() => {
@@ -35,9 +38,8 @@ const Modal = ({ children, open, onClose }) => {
     }
   }
 
-  return (
-    <>
-      {open && (
+  return open
+    ? createPortal(
         <div
           className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-75'
           style={{ zIndex: 1000 }}
@@ -66,10 +68,10 @@ const Modal = ({ children, open, onClose }) => {
               </>
             )}
           </div>
-        </div>
-      )}
-    </>
-  )
+        </div>,
+        modalRoot
+      )
+    : null
 }
 
 export default Modal
